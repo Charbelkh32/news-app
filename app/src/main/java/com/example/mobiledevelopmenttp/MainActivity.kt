@@ -1,47 +1,30 @@
 package com.example.mobiledevelopmenttp
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.mobiledevelopmenttp.ui.theme.MobileDevelopmentTpTheme
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            MobileDevelopmentTpTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
-            }
-        }
-    }
-}
+        setContentView(R.layout.activity_main)
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
+        val recyclerView = findViewById<RecyclerView>(R.id.recyclerViewNews)
+        val layoutManager = LinearLayoutManager(this)
+        recyclerView.layoutManager = layoutManager
+        recyclerView.addItemDecoration(DividerItemDecoration(this, layoutManager.orientation))
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    MobileDevelopmentTpTheme {
-        Greeting("Android")
+        val newsList = listOf(
+            NewsItem("Tech Giants Report Record Profits", "Major technology companies announced unprecedented earnings this quarter.", R.drawable.ic_android),
+            NewsItem("Climate Summit Reaches New Agreement", "World leaders signed a landmark climate deal targeting net-zero emissions by 2040.", R.drawable.ic_android),
+            NewsItem("Space Mission Discovers New Exoplanet", "NASA confirmed a potentially habitable planet just 40 light-years away.", R.drawable.ic_android),
+            NewsItem("Global Markets Hit All-Time High", "Stock exchanges closed at record levels following strong economic data.", R.drawable.ic_android),
+            NewsItem("Medical Breakthrough in Cancer Research", "MIT researchers unveiled immunotherapy showing 90% success in early trials.", R.drawable.ic_android),
+            NewsItem("Championship Final Draws Millions", "Last night's match became the most-watched sporting event of the decade.", R.drawable.ic_android)
+        )
+
+        recyclerView.adapter = NewsAdapter(newsList)
     }
 }
